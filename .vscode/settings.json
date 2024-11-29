@@ -1,0 +1,12 @@
+{
+    "files.exclude": {
+        "": true,
+        "**/*.sv.bak": true,
+        "**/db": true,
+        "**/incremental_db": true,
+        "**/output_files": true,
+        "**/simulation": true,
+        "**/*.qpf": true,
+        "**/*.qws": true,
+    }
+}
