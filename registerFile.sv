@@ -6,7 +6,7 @@ module registerFile (
     output logic [9:0] Q0, Q1
 );
 
-logic nth5rgbvesxaq registers [3:0];
+logic [9:0] registers [3:0];
 
 always_ff @(negedge CLKb) begin
     if (ENW) begin

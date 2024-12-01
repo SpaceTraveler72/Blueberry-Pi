@@ -53,32 +53,157 @@ initial begin
 end
 
 always_comb begin
+    // Initialize all signals to default values
+    ENR = 1'b0;
+    Ain = 1'b0;
+    Rout = 2'b00;
+    Gin = 1'b0;
+    Gout = 1'b0;
+    ENW = 1'b0;
+    Rin = 2'b00;
+    Ext = 1'b0;
+
+    // Default values for reset signals
+    Clr = 1'b0;
+    IRin = 1'b0;
+
+    // Default values for IMM and ALUcont
+    ALUcont = 4'bzzzz;
+    IMM = 10'bzzzzzzzzzz;
+
+
     case (IR[1:0])
         2'b00: begin
             case (IR[5:2])
-                2'b0000: begin
-                    case (timestep)
-                        2'b00: begin
-                            Ext = 1'b1;
-                            ENW = 1'b1;
-                            Rin = IR[9:8];
-                        end
-                        2'b10: begin
-                            Ext = 1'b0;
-                            ENW = 1'b0;
-                            Clr = 1'b0;
-                        end
-                    endcase
+                4'b0000: handleLoad();
+                4'b0001: handleCopy();
+                4'b0010: handleALU();
+                4'b0011: handleALU();
+                4'b0100: handleALU();
+                4'b0101: handleALU();
+                4'b0110: handleALU();
+                4'b0111: handleALU();
+                4'b1000: handleALU();
+                4'b1001: handleALU();
+                4'b1010: handleALU();
+                4'b1011: handleALU();
+
+                default: begin
+                    Clr = 1'b1;
+                    IRin = 1'b1;
                 end
             endcase
         end
-        2'b01: begin
-            IMM = {6'b0000, IR[7:2]};
-        end
-        2'b11: begin
-            IMM = {6'b1111, IR[7:2]};
+        2'b01: immediateAdd();
+        2'b11: immediateSub();
+        default: begin
+            Clr = 1'b1;
+            IRin = 1'b1;
         end
     endcase
 end
+
+function void handleLoad();
+    case (timestep)
+        2'b00: begin
+            Ext = 1'b1;
+            ENW = 1'b1;
+            Rin = IR[9:8];
+        end
+        2'b01: begin
+            Clr = 1'b1;
+            IRin = 1'b1;
+            Ext = 1'b1;
+        end
+    endcase
+endfunction
+
+function void handleCopy();
+    case (timestep)
+        2'b00: begin
+            ENR = 1'b1;
+            Rout = IR[7:6];
+        end
+        2'b01: begin
+            ENW = 1'b1;
+            Rin = IR[9:8];
+        end
+        2'b10: begin
+            Clr = 1'b1;
+            IRin = 1'b1;
+        end
+    endcase
+endfunction
+
+function void handleALU();
+    case (timestep)
+        2'b00: begin
+            ENR = 1'b1;
+            Ain = 1'b1;
+            Rout = IR[7:6];
+        end
+        2'b01: begin
+            ENR = 1'b1;
+            Gin = 1'b1;
+            Rout = IR[9:8];
+        end
+        2'b10: begin
+            ALUcont = IR[5:2];
+            ENW = 1'b1;
+            Gout = 1'b1;
+            Rin = IR[9:8];
+        end
+        2'b11: begin
+            Clr = 1'b1;
+            IRin = 1'b1;
+        end
+    endcase
+endfunction
+
+function void immediateAdd();
+    case (timestep)
+        2'b00: begin
+            IMM = {4'b0000, IR[7:2]};
+            Ain = 1'b1;
+        end
+        2'b01: begin
+            ENR = 1'b1;
+            Gin = 1'b1;
+            Rout = IR[9:8];
+        end
+        2'b10: begin
+            ALUcont = IR[5:2];
+            ENW = 1'b1;
+            Rin = IR[9:8];
+        end
+        2'b11: begin
+            Clr = 1'b1;
+            IRin = 1'b1;
+        end
+    endcase
+endfunction
+
+function void immediateSub();
+    case (timestep)
+        2'b00: begin
+            IMM = {4'b1111, IR[7:2]};
+            Ain = 1'b1;
+        end
+        2'b01: begin
+            ENR = 1'b1;
+            Gin = 1'b1;
+            Rout = IR[9:8];
+        end
+        2'b10: begin
+            ALUcont = IR[5:2];
+            ENW = 1'b1;
+            Rin = IR[9:8];
+        end
+        2'b11: begin
+            Clr = 1'b1;
+            IRin = 1'b1;
+        end
+    endcase
+endfunction
 
 endmodule

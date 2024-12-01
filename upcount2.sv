@@ -7,7 +7,7 @@ always_ff @(negedge CLKb) begin
     if (CLR) begin
         CNT <= 2'b00;
     end else begin
-        CNT <= CNT + 1;
+        CNT <= CNT + 2'd1;
     end
 end
 
