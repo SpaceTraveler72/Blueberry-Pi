@@ -17,14 +17,8 @@ module processorController (
 
 parameter 
     LOAD = 4'b0000,             //Load data from the instruction register to Rx: Rx←[Rx]
-    COPY = 4'b0001,             //Copy the value from Ry and store to Rx: Rx←[Ry]
-
-initial begin
-    IRin = 1'b1;
-    Ext = 1'b1;
-    Clr = 1'b1;
-end
-
+    COPY = 4'b0001;             //Copy the value from Ry and store to Rx: Rx←[Ry]
+	 
 always_comb begin
     // Initialize all enable to default values
     ENR = 1'b0;
@@ -118,7 +112,7 @@ function void handleALU();
     endcase
 endfunction
 
-function void immediateOp(isAdd);
+function void immediateOp(logic isAdd);
     case (timestep)
         2'b01: begin
             if (isAdd) begin
