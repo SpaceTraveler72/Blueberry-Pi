@@ -16,11 +16,11 @@ module processorController (
 );
 
 parameter 
-    LOAD = 4'b0000,             //Load data from the instruction register to Rx: Rx←[Rx]
-    COPY = 4'b0001;             //Copy the value from Ry and store to Rx: Rx←[Ry]
-	 
+    LOAD = 4'b0000,             // Load data from the instruction register to Rx: Rx←[Rx]
+    COPY = 4'b0001;             // Copy the value from Ry and store to Rx: Rx←[Ry]
+
 always_comb begin
-    // Initialize all enable to default values
+    // Initialize all enable signals to default values
     ENR = 1'b0;
     Ain = 1'b0;
     Rout = 2'b00;
@@ -28,11 +28,9 @@ always_comb begin
     Gout = 1'b0;
     ENW = 1'b0;
     Rin = 2'b00;
-
-    // Default values for reset signals
-    Clr = 1'b0;
     IRin = 1'b0;
     Ext = 1'b0;
+    Clr = 1'b0;
 
     // Default values for IMM and ALUcont
     ALUcont = 4'bzzzz;
@@ -42,29 +40,27 @@ always_comb begin
     if (timestep == 2'b00) begin
         IRin = 1'b1;
         Ext = 1'b1;
-    end
-
-    case (IR[1:0])
-        2'b00: begin
-            case (IR[5:2])
-                LOAD: handleLoad();
-                COPY: handleCopy();
-
-                default: begin
-                    // check if the instruction is an ALU operation
-                    if (IR[5:2] >= 4'b0010 && IR[5:2] <= 4'b1011) begin
-                        handleALU();
-                    end else begin
-                        Clr = 1'b1;
+    end else begin
+        case (IR[1:0])
+            2'b00: begin
+                case (IR[5:2])
+                    LOAD: handleLoad();
+                    COPY: handleCopy();
+                    default: begin
+                        // Check if the instruction is an ALU operation
+                        if (IR[5:2] >= 4'b0010 && IR[5:2] <= 4'b1011) begin
+                            handleALU();
+                        end else begin
+                            Clr = 1'b1;
+                        end
                     end
-                end
-
-            endcase
-        end
-        2'b01: immediateOp(1);
-        2'b11: immediateOp(0);
-        default: Clr = 1'b1;
-    endcase
+                endcase
+            end
+            2'b01: immediateOp(1);
+            2'b11: immediateOp(0);
+            default: Clr = 1'b1;
+        endcase
+    end
 end
 
 function void handleLoad();
@@ -73,9 +69,6 @@ function void handleLoad();
             Ext = 1'b1;
             ENW = 1'b1;
             Rin = IR[9:8];
-            Clr = 1'b1;
-        end
-        2'b10: begin
             Clr = 1'b1;
         end
     endcase
@@ -136,7 +129,6 @@ function void immediateOp(logic isAdd);
             end else begin
                 ALUcont = 4'b0011;
             end
-
             ENW = 1'b1;
             Rin = IR[9:8];
             Clr = 1'b1;

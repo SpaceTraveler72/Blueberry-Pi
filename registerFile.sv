@@ -8,6 +8,14 @@ module registerFile (
 
 logic [9:0] registers [3:0];
 
+initial begin
+	registers[0] = 10'b0;
+	registers[1] = 10'b0;
+	registers[2] = 10'b0;
+	registers[3] = 10'b0;
+
+end
+
 always_ff @(negedge CLKb) begin
     if (ENW) begin
         registers[WRA] <= D;
