@@ -67,8 +67,8 @@ always_comb begin
 
             endcase
         end
-        2'b01: immediateAdd();
-        2'b11: immediateSub();
+        2'b01: immediateOp(1);
+        2'b11: immediateOp(0);
         default: Clr = 1'b1;
     endcase
 end
@@ -118,30 +118,14 @@ function void handleALU();
     endcase
 endfunction
 
-function void immediateAdd();
+function void immediateOp(isAdd);
     case (timestep)
         2'b01: begin
-            IMM = {4'b0000, IR[7:2]};
-            Ain = 1'b1;
-        end
-        2'b10: begin
-            ENR = 1'b1;
-            Gin = 1'b1;
-            Rout = IR[9:8];
-        end
-        2'b11: begin
-            ALUcont = IR[5:2];
-            ENW = 1'b1;
-            Rin = IR[9:8];
-            Clr = 1'b1;
-        end
-    endcase
-endfunction
-
-function void immediateSub();
-    case (timestep)
-        2'b01: begin
-            IMM = {4'b1111, IR[7:2]};
+            if (isAdd) begin
+                IMM = {4'b0000, IR[7:2]};
+            end else begin
+                IMM = {4'b1111, IR[7:2]};
+            end
             Ain = 1'b1;
         end
         2'b10: begin
