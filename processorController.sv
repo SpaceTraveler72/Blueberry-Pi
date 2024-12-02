@@ -19,6 +19,7 @@ parameter
     LOAD = 4'b0000,             // Load data from the instruction register to Rx: Rx←[Rx]
     COPY = 4'b0001;             // Copy the value from Ry and store to Rx: Rx←[Ry]
 
+
 always_comb begin
     // Initialize all enable signals to default values
     ENR = 1'b0;
