@@ -18,7 +18,8 @@ module main(
 
     reg10 (.D(bus), .EN(holdInst), .CLKb(clkButton), .Q(inst));
 
-    logic [1:0] clkClear, timestep;
+    logic [1:0] timestep;
+    logic clkClear;
 
     upcount2(.CLR(clkClear), .CLKb(cleanClk), .CNT(timestep));
 

@@ -75,6 +75,9 @@ function void handleLoad();
             Rin = IR[9:8];
             Clr = 1'b1;
         end
+        2'b10: begin
+            Clr = 1'b1;
+        end
     endcase
 endfunction
 
@@ -128,7 +131,12 @@ function void immediateOp(logic isAdd);
             Rout = IR[9:8];
         end
         2'b11: begin
-            ALUcont = IR[5:2];
+            if (isAdd) begin
+                ALUcont = 4'b0010;
+            end else begin
+                ALUcont = 4'b0011;
+            end
+
             ENW = 1'b1;
             Rin = IR[9:8];
             Clr = 1'b1;

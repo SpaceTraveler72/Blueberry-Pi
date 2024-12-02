@@ -30,7 +30,7 @@ always_ff @(negedge CLKb) begin
             4'b1001: Q = A << B; // lsl
             4'b1010: Q = A >> B; // lsr
             4'b1011: Q = $signed(A) >>> B; // asr
-            default: Q = 10'bzzzzzzzzzz;
+            default: Q = 10'b0;
         endcase
     end
 end

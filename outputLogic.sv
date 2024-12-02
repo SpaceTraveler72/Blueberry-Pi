@@ -8,7 +8,7 @@ module outputLogic(
 );
 
 assign Led_B = Bus;
-assign Led_D = done;
+assign Led_D = ~done;
 
 logic [3:0] seg0, seg1, seg2;
 logic hexSwitch;
