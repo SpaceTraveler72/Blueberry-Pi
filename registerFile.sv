@@ -28,11 +28,13 @@ always_ff @(negedge CLKb) begin
     end else begin
         Q0 <= 10'bz;
     end
+end
 
+always_comb begin
     if (ENR1) begin
-        Q1 <= registers[RDA1];
+        Q1 = registers[RDA1];
     end else begin
-        Q1 <= 10'bz;
+        Q1 = 10'bz;
     end
 end
 

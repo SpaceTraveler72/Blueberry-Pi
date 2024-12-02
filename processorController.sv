@@ -71,6 +71,7 @@ function void handleLoad();
             Rin = IR[9:8];
             Clr = 1'b1;
         end
+		default: Clr = 1'b1;
     endcase
 endfunction
 
@@ -83,6 +84,7 @@ function void handleCopy();
             Rin = IR[9:8];
             Clr = 1'b1;
         end
+		default: Clr = 1'b1;
     endcase
 endfunction
 
@@ -105,6 +107,7 @@ function void handleALU();
             Rin = IR[9:8];
             Clr = 1'b1;
         end
+		default: Clr = 1'b1;
     endcase
 endfunction
 
@@ -133,6 +136,7 @@ function void immediateOp(logic isAdd);
             Rin = IR[9:8];
             Clr = 1'b1;
         end
+		default: Clr = 1'b1;
     endcase
 endfunction
 
