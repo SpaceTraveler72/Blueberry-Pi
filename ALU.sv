@@ -17,7 +17,9 @@ always_ff @(negedge CLKb) begin
 end
 
 
-always_ff @(negedge CLKb) begin
+always_comb begin
+	 Q = 10'bz;
+	 
     if (Gout) begin
         case (FN)
             4'b0010: Q = A + B; // add
@@ -30,7 +32,6 @@ always_ff @(negedge CLKb) begin
             4'b1001: Q = A << B; // lsl
             4'b1010: Q = A >> B; // lsr
             4'b1011: Q = $signed(A) >>> B; // asr
-            default: Q = 10'bz;
         endcase
     end
 end

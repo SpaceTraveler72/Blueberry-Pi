@@ -61,16 +61,16 @@ always_comb begin
             2'b11: immediateOp(0);
             default: Clr = 1'b1;
         endcase
-    end
+		end
 end
 
 function void handleLoad();
     case (timestep)
         2'b01: begin
+            Clr = 1'b1;
             Ext = 1'b1;
             ENW = 1'b1;
             Rin = IR[9:8];
-            Clr = 1'b1;
         end
 		default: Clr = 1'b1;
     endcase
