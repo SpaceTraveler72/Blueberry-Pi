@@ -45,7 +45,7 @@ module main(
         .Clr(clkClear)
     );
 
-    always_ff @(negedge cleanClk) begin
+    always_comb begin
         if (extrn) begin
             bus <= switches;
         end else begin

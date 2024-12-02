@@ -22,19 +22,17 @@ always_ff @(negedge CLKb) begin
     end
 end
 
-always_ff @(negedge CLKb) begin
-    if (ENR0) begin
-        Q0 <= registers[RDA0];
-    end else begin
-        Q0 <= 10'bz;
-    end
-end
-
 always_comb begin
     if (ENR1) begin
         Q1 = registers[RDA1];
     end else begin
         Q1 = 10'bz;
+    end
+
+    if (ENR0) begin
+        Q0 <= registers[RDA0];
+    end else begin
+        Q0 <= 10'bz;
     end
 end
 
