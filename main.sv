@@ -16,7 +16,7 @@ module main(
     wire [9:0] bus;
     logic holdInst, extrn;
 
-    reg10 (.D(switches), .EN(holdInst), .CLKb(clkButton), .Q(inst));
+    reg10 (.D(bus), .EN(holdInst), .CLKb(clkButton), .Q(inst));
 
     logic [1:0] clkClear, timestep;
 
