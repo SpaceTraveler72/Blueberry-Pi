@@ -115,7 +115,7 @@ endfunction
 function void immediateOp(logic isAdd);
     case (timestep)
         2'b01: begin
-				ENR = 1'b1;
+			ENR = 1'b1;
             Gin = 1'b1;
             Rout = IR[9:8];
         end
@@ -131,7 +131,7 @@ function void immediateOp(logic isAdd);
             ALUcont = 4'b0010;
             ENW = 1'b1;
             Rin = IR[9:8];
-				Gout = 1'b1;
+			Gout = 1'b1;
             Clr = 1'b1;
         end
 		default: Clr = 1'b1;
