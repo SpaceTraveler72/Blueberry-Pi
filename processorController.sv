@@ -94,12 +94,12 @@ function void handleALU();
         2'b01: begin
             ENR = 1'b1;
             Ain = 1'b1;
-            Rout = IR[7:6];
+            Rout = IR[9:8];
         end
         2'b10: begin
             ENR = 1'b1;
             Gin = 1'b1;
-            Rout = IR[9:8];
+            Rout = IR[7:6];
         end
         2'b11: begin
             ALUcont = IR[5:2];
@@ -115,26 +115,23 @@ endfunction
 function void immediateOp(logic isAdd);
     case (timestep)
         2'b01: begin
-            if (isAdd) begin
-                IMM = {4'b0000, IR[7:2]};
-            end else begin
-                IMM = {4'b1111, IR[7:2]};
-            end
-            Ain = 1'b1;
-        end
-        2'b10: begin
-            ENR = 1'b1;
+				ENR = 1'b1;
             Gin = 1'b1;
             Rout = IR[9:8];
         end
-        2'b11: begin
+        2'b10: begin
             if (isAdd) begin
-                ALUcont = 4'b0010;
+                IMM = {4'b0000, IR[7:2]};
             end else begin
-                ALUcont = 4'b0011;
+                IMM = {4'b1111, -IR[7:2]};
             end
+            Ain = 1'b1;
+        end
+        2'b11: begin
+            ALUcont = 4'b0010;
             ENW = 1'b1;
             Rin = IR[9:8];
+				Gout = 1'b1;
             Clr = 1'b1;
         end
 		default: Clr = 1'b1;
