@@ -123,7 +123,7 @@ function void immediateOp(logic isAdd);
             if (isAdd) begin
                 IMM = {4'b0000, IR[7:2]};
             end else begin
-                IMM = {4'b1111, -IR[7:2]};
+                IMM = {4'b1111, (~IR[7:2]) + 1};
             end
             Ain = 1'b1;
         end
